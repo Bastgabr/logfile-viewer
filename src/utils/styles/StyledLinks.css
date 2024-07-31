@@ -1,0 +1,8 @@
+.styled-link {
+  text-decoration: none;
+  color: #ff8225;
+}
+
+.styled-link:hover {
+  color: #173b45;
+}
