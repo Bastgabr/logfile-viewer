@@ -1,6 +1,7 @@
 .footer-wrapper {
   display: flex;
   position: fixed;
+  height: 20px;
   bottom: 0;
   width: 100%;
   color: white;

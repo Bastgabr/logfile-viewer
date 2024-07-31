@@ -17,14 +17,19 @@
     .drop-zone {
       display: flex;
 
-      .image {
-        height: 140px;
+      .image-container {
         margin-top: 32px;
         padding: 64px;
         border: 4px dashed #ff8225;
         border-radius: 20px;
         background-color: #fff2e9;
         width: 100%;
+        display: flex;
+        justify-content: center;
+
+        .image {
+          height: 140px;
+        }
       }
 
       .decoration {
@@ -33,6 +38,12 @@
         img {
           position: absolute;
         }
+      }
+
+      .decoration::before {
+        left: -130px;
+        top: 100px;
+        rotate: -30deg;
       }
 
       .decoration.left > img {
@@ -48,6 +59,22 @@
       }
     }
 
+    .drop-zone.active {
+      .image-container {
+        border: 4px solid #3fa34d;
+        background-color: #c0f7c8;
+
+        .image {
+          height: 140px;
+          visibility: collapse;
+        }
+      }
+
+      .decoration {
+        visibility: hidden;
+      }
+    }
+
     .upload-button-container {
       margin-top: 32px;
       display: flex;
@@ -56,28 +83,6 @@
 
     .secondary {
       color: #ff8225;
-    }
-  }
-}
-
-.progress-bar-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .progress-bar {
-    background-color: #173b45;
-    width: 100%;
-    height: 4px;
-    margin: 64px 128px;
-    border-radius: 25px;
-
-    .progress {
-      background-color: #ff8225;
-      height: 100%;
-      transition: width 200ms ease-in-out;
-      transition-timing-function: ease-out;
     }
   }
 }

@@ -15,6 +15,7 @@ ReactDOM.render(
     <Header />
     <Routes>
       <Route path="/" element={<Home />}></Route>
+      <Route path="/new" element={<Home newUpload={true} />}></Route>
       <Route path="/about" element={<About />}></Route>
       <Route path="/getting-started" element={<GettingStarted />}></Route>
       <Route path="*" element={<Error />}></Route>

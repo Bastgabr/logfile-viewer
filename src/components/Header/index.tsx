@@ -76,7 +76,7 @@ const Header = () => {
       </LogoWrapper>
       <LinksContainer>
         <StyledLink
-          to="/"
+          to="/new"
           text="Upload file"
           className="primary-button"
           icon={UploadIcon}

@@ -2,34 +2,47 @@ import React from 'react';
 import '../../utils/styles/FileUploader.css';
 import '../../utils/styles/Buttons.css';
 import { useState } from 'react';
+import ProgressBar from '../Progressbar/index.tsx';
 import UploadIcon from '../../assets/upload.svg';
 import FilesIcon from '../../assets/files-icon.svg';
 import MultiCurlDottedArrow from '../../assets/multi-curl-dotted-arrow.svg';
 import CurlyDottedArrow from '../../assets/curly-dotted-arrow.svg';
-import ProgressBar from '../Progressbar/index.tsx';
 
 const FileUploader = ({ setUploadedFile }) => {
-  const [, setDragOver] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
+  /**
+   * Handles the drag over event above the drop zone
+   * @param e drag over event
+   * @returns
+   */
   const handleDragOver = (e) => {
     if (e.dataTransfer.items.length === 0) return;
-    //TODO: prevent the drop on the main div, prevent from dropping text only, images etc..
-    //console.log(e.dataTransfer.items);
-    //console.log(e.dataTransfer.items[0].kind);
-    //kind = e.dataTransfer.items[0].some();
-    //if(e.dataTransfer.files)
+
+    let filesOnly = Array(e.dataTransfer.items[0]).some(
+      (file) => file.kind === 'file'
+    );
+    if (!filesOnly) return false;
 
     e.preventDefault();
     setDragOver(true);
   };
 
+  /**
+   * Handles the drag leve event when leaving the drop zone
+   * @param e drag event
+   */
   const handleDragLeave = (e) => {
     e.preventDefault();
     setDragOver(false);
   };
 
+  /**
+   * Handle drop event
+   * @param e drop event
+   */
   const handleDrop = (e) => {
     e.preventDefault();
     setDragOver(false);
@@ -44,6 +57,10 @@ const FileUploader = ({ setUploadedFile }) => {
     uploadFile(file);
   };
 
+  /**
+   * Upload file with file readerAPI
+   * @param file file to upload
+   */
   const uploadFile = (file) => {
     const reader = new FileReader();
     reader.readAsText(file);
@@ -62,7 +79,6 @@ const FileUploader = ({ setUploadedFile }) => {
         10
       );
       setUploadProgress(progress);
-      console.log(progress + ' %');
     });
   };
 
@@ -70,6 +86,7 @@ const FileUploader = ({ setUploadedFile }) => {
     uploadFile(e.target.files[0]);
   };
 
+  //Default content
   let defaultContent = (
     <div className="content">
       <h1>Upload Logfile</h1>
@@ -78,7 +95,7 @@ const FileUploader = ({ setUploadedFile }) => {
         press on the button to upload a log file
       </label>
       <div
-        className="drop-zone"
+        className={`drop-zone ${dragOver && 'active'} `}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -86,12 +103,13 @@ const FileUploader = ({ setUploadedFile }) => {
         <div className="decoration left">
           <img src={MultiCurlDottedArrow} alt="arrow icon"></img>
         </div>
-        <img className="image" src={FilesIcon} alt="files icon"></img>
+        <div className="image-container">
+          <img className="image" src={FilesIcon} alt="files icon"></img>
+        </div>
         <div className="decoration right">
           <img src={CurlyDottedArrow} alt="arrow icon"></img>
         </div>
       </div>
-      {/* TODO: Put a callback on the <input> to retrieve the file */}
       <div className="upload-button-container">
         <label className="primary-button" htmlFor="file-upload">
           <div>
@@ -109,6 +127,7 @@ const FileUploader = ({ setUploadedFile }) => {
     </div>
   );
 
+  //Shows the loader
   let loaderContent = (
     <div className="content">
       <h1>Uploading files</h1>
